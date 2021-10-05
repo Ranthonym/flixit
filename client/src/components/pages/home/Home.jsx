@@ -1,9 +1,9 @@
 import React from "react";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../../Navbar/Navbar";
 import "./home.scss";
 
-import Featured from "../components/Featured/Featured";
-import List from "../components/List/List";
+import Featured from "../../Featured/Featured";
+import List from "../../List/List";
 
 const Home = () => {
   return (
