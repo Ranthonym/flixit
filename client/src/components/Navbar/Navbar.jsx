@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import logo from "../../images/logo.png";
 import profile from "../../images/profile.jpeg";
@@ -19,9 +20,16 @@ const Navbar = () => {
       <div className="container">
         <div className="left">
           <img src={logo} alt="logo" />
-          <span>Homepage</span>
-          <span>Series</span>
-          <span>Films</span>
+          <Link to="/" className="link">
+            <span>Home</span>
+          </Link>
+
+          <Link to="/series" className="link">
+            <span>Series</span>
+          </Link>
+          <Link to="/movies" className="link">
+            <span>Movies</span>
+          </Link>
           <span>New & Popular</span>
           <span>My List</span>
         </div>
