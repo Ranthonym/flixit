@@ -1,15 +1,33 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 import {
   Add,
   PlayArrow,
   ThumbDownAltOutlined,
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
-import React, { useState } from "react";
 import "./ListItem.scss";
 
-const ListItem = ({ index }) => {
+const ListItem = ({ itemID, index }) => {
   const [isHover, setIsHover] = useState(false);
-  const trailer = "https://www.youtube.com/watch?v=hQXKyIG_NS4";
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const res = await axios.get(`/movies/find/${itemID}`, {
+          headers: {
+            token: "Bearer [JWT token]",
+          },
+        });
+        setMovie(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMovie();
+  }, [itemID]);
 
   return (
     <div
@@ -18,13 +36,10 @@ const ListItem = ({ index }) => {
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      <img
-        src="https://indiehoy.com/wp-content/uploads/2019/09/Seinfeld-1200x701.jpg"
-        alt="poster"
-      />
+      <img src={movie.img} alt="poster" />
       {isHover && (
         <>
-          <video src={trailer} autoPlay={true} loop></video>
+          <video src={itemID.trailer} autoPlay={true} loop></video>
           <div className="itemInfo">
             <div className="icons">
               <PlayArrow className="icon" />
@@ -33,16 +48,12 @@ const ListItem = ({ index }) => {
               <ThumbDownAltOutlined className="icon" />
             </div>
             <div className="itemInfoTop">
-              <span>1 hr 14 mins</span>
-              <span className="ageLimit">16+</span>
-              <span>1989</span>
+              <span>{movie.duration}</span>
+              <span className="ageLimit">{movie.limit}+</span>
+              <span>{movie.year}</span>
             </div>
-            <div className="desc">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud
-            </div>
-            <div className="genre">Comedy</div>
+            <div className="desc">{movie.desc}</div>
+            <div className="genre">{movie.genre}</div>
           </div>
         </>
       )}
