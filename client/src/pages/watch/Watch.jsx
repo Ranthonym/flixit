@@ -1,17 +1,22 @@
 import React from "react";
-
+import { useLocation, Link } from "react-router-dom";
 import { ArrowBackOutlined } from "@material-ui/icons";
 import "./Watch.scss";
 
 const Watch = () => {
+  const location = useLocation();
+  const movie = location.movie;
+
   return (
     <div className="watch">
-      <div className="back">
-        <ArrowBackOutlined />
-        Home
-      </div>
+      <Link to="/">
+        <div className="back">
+          <ArrowBackOutlined />
+          Home
+        </div>
+      </Link>
       <video
-        src="https://www.youtube.com/watch?v=hQXKyIG_NS4"
+        src={movie.video}
         className="video"
         autoPlay
         progress

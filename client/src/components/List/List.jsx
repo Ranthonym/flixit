@@ -36,8 +36,8 @@ const List = ({ list }) => {
           style={{ display: !isMoved && "none" }}
         />
         <div className="container" ref={listRef}>
-          {list.content.map((item, index) => (
-            <ListItem index={index} item={item} />
+          {list.content.map((itemID, index) => (
+            <ListItem index={index} item={itemID} />
           ))}
         </div>
         <ArrowForwardIosOutlined

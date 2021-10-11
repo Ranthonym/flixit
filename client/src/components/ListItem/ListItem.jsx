@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import {
@@ -30,34 +31,36 @@ const ListItem = ({ itemID, index }) => {
   }, [itemID]);
 
   return (
-    <div
-      className="listItem"
-      style={{ left: isHover && index * 225 - 50 + index * 2.5 }}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-    >
-      <img src={movie.img} alt="poster" />
-      {isHover && (
-        <>
-          <video src={itemID.trailer} autoPlay={true} loop></video>
-          <div className="itemInfo">
-            <div className="icons">
-              <PlayArrow className="icon" />
-              <Add className="icon" />
-              <ThumbUpAltOutlined className="icon" />
-              <ThumbDownAltOutlined className="icon" />
+    <Link to={{ pathname: "/watch", movie: movie }}>
+      <div
+        className="listItem"
+        style={{ left: isHover && index * 225 - 50 + index * 2.5 }}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        <img src={movie.img} alt="poster" />
+        {isHover && (
+          <>
+            <video src={itemID.trailer} autoPlay={true} loop></video>
+            <div className="itemInfo">
+              <div className="icons">
+                <PlayArrow className="icon" />
+                <Add className="icon" />
+                <ThumbUpAltOutlined className="icon" />
+                <ThumbDownAltOutlined className="icon" />
+              </div>
+              <div className="itemInfoTop">
+                <span>{movie.duration}</span>
+                <span className="ageLimit">{movie.limit}+</span>
+                <span>{movie.year}</span>
+              </div>
+              <div className="desc">{movie.desc}</div>
+              <div className="genre">{movie.genre}</div>
             </div>
-            <div className="itemInfoTop">
-              <span>{movie.duration}</span>
-              <span className="ageLimit">{movie.limit}+</span>
-              <span>{movie.year}</span>
-            </div>
-            <div className="desc">{movie.desc}</div>
-            <div className="genre">{movie.genre}</div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </Link>
   );
 };
 
