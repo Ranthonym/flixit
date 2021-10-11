@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Featured.scss";
 
 import profile from "../../images/profile.jpeg";
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 
 const Featured = ({ type }) => {
+  const [content, setContent] = useState({});
+
+  useEffect(() => {
+    const getRandomContent = async () => {
+      try {
+        const response = await axios.get(`/movies/random?type=${type}`, {
+          headers: {
+            token: "Bearer [JWT token]",
+          },
+        });
+        setContent(response.data[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRandomContent();
+  }, [type]);
+
   return (
     <div className="featured">
       {type && (
@@ -28,18 +47,10 @@ const Featured = ({ type }) => {
           </select>
         </div>
       )}
-      <img src={profile} alt="featured" />
+      <img src={content.img} alt="featured" />
       <div className="info">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/2/20/NormMacdonaldHasAShow.png"
-          alt="featured"
-        />
-        <span className="desc">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat
-        </span>
+        <img src={content.imgTitle} alt="featuredTitle" />
+        <span className="desc">{content.desc}</span>
         <div className="buttons">
           <button className="play">
             <PlayArrow />
